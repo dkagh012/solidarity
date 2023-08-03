@@ -1,0 +1,47 @@
+.loginBoxForm {
+  width: 100%;
+}
+
+.loginBoxInput {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.loginBoxInput > div {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.loginBoxList {
+  color: white;
+  display: flex;
+  padding: 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  li {
+    gap: 16px;
+    display: flex;
+    align-items: center;
+    button {
+      border: 0;
+      background: transparent;
+      font-size: 14px;
+      color: var(--colorWhite);
+      cursor: pointer;
+    }
+    &::after {
+      content: "";
+      width: 1px;
+      height: 16px;
+      background: var(--colorWhite);
+      display: inline-block;
+    }
+    &:last-child::after {
+      display: none;
+    }
+  }
+}

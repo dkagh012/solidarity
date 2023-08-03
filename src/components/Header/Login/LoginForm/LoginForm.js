@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./LoginForm.module.css";
+import classes from "./LoginForm.module.scss";
 
 function LoginForm(props) {
   const { email, updateEmail, isEmailValid } = props;
