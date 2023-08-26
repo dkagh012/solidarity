@@ -1,20 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./JoinForm.module.scss";
+import axios from "axios";
 function JoinForm(props) {
-  const { email, updateEmail, isEmailValid, isPasswordMatch, setPasswordCheck, password, setPassword, passwordCheck } = props;
+  const {
+    setEmail,
+    updateEmail,
+    isEmailValid,
+    isPasswordMatch,
+    setPasswordCheck,
+    // password,
+    setPassword,
+    passwordCheck,
+  } = props;
+  // 회원가입 기능
+  const [emailValue, setEmailValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
+  const handleEmailChange = (e) => {
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+    setEmailValue(emailValue); // It seems you are maintaining a local state for email in JoinForm. If it's not necessary, you can consider removing it.
+    updateEmail(emailValue);
+  };
+  const handlePasswordChange = (e) => {
+    setPasswordValue(e.target.value);
+    setPassword(e.target.value);
+  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:8080/api/Join", {
+        email: emailValue,
+        password: passwordValue,
+      });
+      console.log(response.data.message);
+      props.onChange("JoinEmail"); // onClick에서 실행하던 것을 여기로 이동
+    } catch (error) {
+      console.error("Error registering user:", error);
+    }
+  };
+
   return (
     <div className={classes.JoinBox}>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className={classes.JoinBoxInput}>
           <div>
             <h1>이메일을 입력해주세요</h1>
             <input
               type="text"
-              value={email}
+              value={emailValue}
               required
               placeholder="이메일 입력"
               id="email"
-              onChange={(e) => updateEmail(e.target.value)}
+              autoComplete="email"
+              onChange={handleEmailChange}
             ></input>
             {!isEmailValid && (
               <span className="Check">이메일 형식이 맞지 않습니다.</span>
@@ -25,10 +64,11 @@ function JoinForm(props) {
             <input
               type="password"
               id="password"
+              autoComplete="password"
               placeholder="비밀번호"
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={passwordValue}
+              onChange={handlePasswordChange}
             ></input>
           </div>
           <div>
@@ -50,7 +90,7 @@ function JoinForm(props) {
           <span>영문,숫자,특수문자 중 2가지 이상 조합해 주세요</span>
         </div>
         <div className={classes.loginBoxBtn}>
-          <button type="submit" onClick={() => props.onChange("JoinEmail")}>다음</button>
+          <button type="submit"> 다음</button>
         </div>
       </form>
       <div className={classes.JoinBoxLoginBtn}>

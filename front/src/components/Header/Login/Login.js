@@ -24,7 +24,6 @@ function Login({ onClose }) {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   };
-  console.log(email);
   // 비밀번호와 비밀번호 확인 값이 일치하는지 확인하는 함수를 추가합니다.
   const isPasswordMatch = () => {
     return password === passwordCheck;
@@ -61,6 +60,7 @@ function Login({ onClose }) {
         {activeForm === "joinForm" && (
           <JoinForm
             onChange={changeForm}
+            setEmail={setEmail}
             email={email}
             updateEmail={updateEmail}
             isEmailValid={isEmailValid}
@@ -71,7 +71,9 @@ function Login({ onClose }) {
             isPasswordMatch={isPasswordMatch}
           />
         )}
-        {activeForm === "JoinEmail" && <JoinEmail onChange={changeForm} />}
+        {activeForm === "JoinEmail" && (
+          <JoinEmail email={email} onChange={changeForm} />
+        )}
         {activeForm === "JoinFinish" && <JoinFinish onChange={changeForm} />}
       </div>
       <div onClick={onClose} className={classes.loginBoxBackground}></div>
